@@ -1,0 +1,568 @@
+---
+title: Getting Started with R
+engine: knitr
+format: 
+  live-html:
+    toc: true
+css: 
+  - _style.css
+  - _webex.css
+include-after-body: 
+  - _webex.js
+  - _displayall.js
+embed-resources: true
+---
+
+{{< include ./_extensions/r-wasm/live/_knitr.qmd >}} 
+{{< include ./_extensions/r-wasm/live/_gradethis.qmd >}}
+
+## Introduction
+
+This interactive tutorial will introduce you to some basics commands for working with data in R. You'll occasionally see blocks for modifying code or for writing new code from scratch.
+
+This tutorial introduces four ideas:
+
+1.  Doing arithmetic with R.
+2.  Assigning values to variable names in R.
+3.  Saving lists in R.
+4.  Working with words in R.
+
+-   [ ] Continue to the next section
+
+## R is a fancy calculator
+
+The first lesson is that R is a fancy calculator. Considering the power of a computer, this might not be surprising
+
+### Using mathematic operators
+
+The `+` symbol works in R like it does in most places. Try it out by hitting the "Run Code" button in the code chunk below:
+
+```{webr}
+#| caption: Simple addition
+#| exercise: calculator1
+2 + 2
+```
+
+We could have done simple addition like this in our heads, but not every math problem is so simple.
+
+### Now you try
+
+Try out a few different things in the next code block. Can you figure out how to **multiply 520 by 475**? The "Show hint" button can help out if needed.
+
+```{webr}
+#| caption: Simple multiplication
+#| exercise: calculator2
+
+```
+
+:::: {.hint exercise="calculator2"}
+::: {.callout-note collapse="false"}
+#### Hint 1
+
+Use the `*` operator for multiplication.
+
+```{r}
+#| eval: false
+______ * ______
+```
+:::
+::::
+
+:::: {.solution exercise="calculator2"}
+::: {.callout-tip collapse="false"}
+#### Solution
+
+Use the `*` operator for multiplication.
+
+```{webr}
+#| exercise: calculator2
+#| solution: true
+520 * 475
+```
+:::
+::::
+
+```{webr}
+#| exercise: calculator2
+#| check: true
+#| class: wait
+gradethis::grade_this_code()
+```
+
+### Other operators
+
+Good job! We may not always need to do complicated math, but it'll be helpful to know the operators for simple arithmetic, including addition (`+`), subtraction (`-`), multiplication (`*`), and division (`/`). More complex things will be handled by *functions*, which we'll discuss in a future lesson.
+
++--------------+------------------------------+-----------------+
+| Operator     | Description                  | Example         |
++==============+==============================+=================+
+| `+`          | Addition                     | `2 + 3`\        |
+|              |                              | `[1] 5`         |
++--------------+------------------------------+-----------------+
+| `-`          | Subtraction                  | `2 - 3`\        |
+|              |                              | `[1] -1`        |
++--------------+------------------------------+-----------------+
+| `*`          | Multiplication               | `2 * 3`\        |
+|              |                              | `[1] 6`         |
++--------------+------------------------------+-----------------+
+| `/`          | Division                     | `2 / 3`\        |
+|              |                              | `[1] 0.6666667` |
++--------------+------------------------------+-----------------+
+| `^`          | Exponent ("to the power of") | `2 ^ 3`\        |
+|              |                              | `[1] 8`         |
++--------------+------------------------------+-----------------+
+| `( )`        | Order of operations          | `2 ^ (5 - 2)`\  |
+|              |                              | `[1] 8`         |
++--------------+------------------------------+-----------------+
+
+The result in each of these examples is preceded by `[1]`. Although many of our examples only have one answer as output, we'll later see the usefulness of these numbers in brackets when the output is a list of values spanning multiple lines.
+
+-   [ ] Continue to the next section
+
+## R can save variables (or *objects*)
+
+Any old calculator can add and multiply. A *fancy* calculator can also save values to a variable name. And here we're talking of variables that are fancier than any you remember from algebra, where "x" and "y" ruled the day. In R, your variable names can be much fancier.
+
+### Assignment arrow
+
+To save variables (also called "objects"), we'll use the less-than symbol (`<`) and the hyphen or minus sign (`-`) together to make a left-pointing arrow called the "assignment arrow": `<-`. This means we're saving whatever is on the right of the arrow into the variable or object named on the left. For instance, the following code saves the value "1803" to the variable we're calling `louisiana_purchase`:
+
+```{webr}
+#| caption: Saving a value
+#| exercise: variables1
+louisiana_purchase <- 1803
+```
+
+When you save a variable, it'll look like nothing has happened. But with any variable, we can type its name again to see what values are saved in it. Type `louisiana_purchase` below to retrieve the value saved under that name:
+
+```{webr}
+#| setup: true
+#| exercise: 
+#|   - variables1a
+#|   - variables2
+louisiana_purchase <- 1803
+```
+
+```{webr}
+#| caption: Retrieving a value
+#| exercise: variables1a
+
+```
+
+:::: {.solution exercise="variables1a"}
+::: {.callout-tip collapse="false"}
+#### Solution
+
+Just use the object's name:
+
+```{r}
+#| eval: false
+louisiana_purchase
+```
+:::
+::::
+
+### Using objects
+
+Saving objects becomes useful when we don't want to remember a value, or if we might want to change a value without changing a process. Now that we have `louisiana_purchase`, for instance, we can use it in some simple math to find out how many years have passed since the Louisiana purchase:
+
+```{webr}
+#| caption: Using a saved value
+#| exercise: variables2
+2025 - ______
+```
+
+:::: {.hint exercise="variables2"}
+::: {.callout-note collapse="false"}
+#### Hint 1
+
+Subtract `louisiana_purchase` from the current year.
+
+```{r}
+#| eval: false
+______ - louisiana_purchase
+```
+:::
+::::
+
+:::: {.solution exercise="variables2"}
+::: {.callout-tip collapse="false"}
+#### Solution
+
+Any use of an object's name will be replaced with its value.
+
+```{webr}
+#| exercise: variables2
+#| solution: true
+2025 - louisiana_purchase
+```
+:::
+::::
+
+```{webr}
+#| exercise: variables2
+#| check: true
+#| class: wait
+gradethis::grade_this_code()
+```
+
+### Now you try
+
+This example is obviously pretty simple. We can imagine other scenarios, though, where objects might change their value over time while a calculation stays the same. Let's say, for instance, that we have a sweet tooth and are ordering three pieces of pie for dessert. Each piece costs \$9.78. We can calculate our bill with the following code:
+
+```{webr}
+#| caption: Using variables
+#| exercise: variables3a
+pieces_of_pie <- 3
+cost_per_piece <- 9.78
+
+pieces_of_pie * cost_per_piece
+```
+
+But what if the cost goes up or we're feeling exceptionally sweet-toothed? Modify the first two lines in the following code block to calculate our final cost for ordering **seven pieces** of pie, which now cost **\$10.78 each**:
+
+```{webr}
+#| caption: Using variables
+#| exercise: variables3
+pieces_of_pie <- 3
+cost_per_piece <- 9.78
+
+pieces_of_pie * cost_per_piece
+```
+
+:::: {.hint exercise="variables3"}
+::: {.callout-note collapse="false"}
+#### Hint 1
+
+Adjust the values of each variable. Set `pieces_of_pie` to `7` and make `cost_per_piece` to `10.78`.
+
+```{r}
+#| eval: false
+pieces_of_pie <- ___
+cost_per_piece <- ___
+
+pieces_of_pie * cost_per_piece
+```
+:::
+::::
+
+:::: {.solution exercise="variables3"}
+::: {.callout-tip collapse="false"}
+#### Solution
+
+When the values of each variable are adjusted, it will change the result of our multiplication.
+
+```{webr}
+#| exercise: variables3
+#| solution: true
+pieces_of_pie <- 7
+cost_per_piece <- 10.78
+
+pieces_of_pie * cost_per_piece
+```
+:::
+::::
+
+```{webr}
+#| exercise: variables3
+#| check: true
+#| class: wait
+gradethis::grade_this_code()
+```
+
+### Naming objects
+
+So far, you've seen names like `louisiana_purchase`, `pieces_of_pie`, and `cost_per_piece`. From this, we can see that letters and underscores are okay in the names of objects. Some other kinds of characters are also okay, as long as you follow a few rules:
+
+1.  Use names that make sense. There's no need to name everything `x` or `y` when names can be longer. Choose a relatively short name that is clear.
+2.  Names can be made up of letters, numbers, underscores, and periods. Letters can be upper- or lower-cased. Spaces are not allowed.
+3.  Start with a letter. This letter can be upper- or lower-cased.
+
+Working with variables like this can make it easier to think through the work that needs doing by talking it out. Using variables means we don't have to remember specific values, but we can call them up at any time.
+
+### Midpoint Check-in
+
+Occasionally during these lessons, you'll see a checkpoint question (or a few of them) to help reiterate something you've just learned. Don't get nervous, though; they're here just for you to check your own understanding.
+
+```{r}
+#| echo: false
+#| results: 'asis'
+library(webexercises)
+
+q1 <- c(
+  "10 + 4", 
+  "10 - 4", 
+  answer = "10 / 4", 
+  "10 * 4")
+
+q2 <- c(
+  answer = "<-", 
+  "%in%", 
+  "%%", 
+  "+")
+
+# When using `{r} ...` language-bracketed inline code, functions like `mqc()` and `torf()` need to be enclosed by `I()`. This tells knitr to treat the output as markdown, thereby avoiding any character escaping of HTML code these functions generate.
+```
+
+1.  Which of the following shows the mathematic function "ten divided by four"?
+
+-   `{r} I(mcq(q1))`
+
+2.  Which of these operators is used for the assignment of a value to a variable name?
+
+-   `{r} I(mcq(q2))`
+
+3.  Identify which of the following naming conventions will work for objects in R:
+
+| name         | contains                  | valid?               |
+|--------------|---------------------------|----------------------|
+| `myGrades`   | mixed upper and lowercase | `{r} I(torf(TRUE))`  |
+| `my.grades`  | period in middle          | `{r} I(torf(TRUE))`  |
+| `my_grades`  | underscore in middle      | `{r} I(torf(TRUE))`  |
+| `_grades`    | underscore at start       | `{r} I(torf(FALSE))` |
+| `2025grades` | numbers at start          | `{r} I(torf(FALSE))` |
+| `grades2025` | numbers at end            | `{r} I(torf(TRUE))`  |
+| `my grades`  | space                     | `{r} I(torf(FALSE))` |
+
+It's ok if you have to think for some of these. You'll have a chance to review everything at the end.
+
+-   [ ] Continue to the next section
+
+## R can save lists
+
+Sometimes it will come in handy to save multiple values to one variable name. Say for instance, you're the judge of a contest for "cutest dog," and you want to weigh every puppy when it gets entered. It may be enough just to have a list of weights listed together.
+
+In R, we call this list of values a "vector." (We'll often use this word interchangeably with the word *list*, but it's maybe better to use *vector* because the other word also has other meanings in R.) And we can save these values like this:
+
+```{webr}
+#| caption: Saving a vector
+#| exercise: vectors2
+dog_weight <- c(7, 40, 10, 14, 25, 8)
+```
+
+```{webr}
+#| exercise: 
+#|   - vectors2a
+#|   - vectors4
+#|   - vectors5
+#| setup: true
+#| include: true
+dog_weight <- c(7, 40, 10, 14, 25, 8)
+```
+
+### Defining a vector
+
+Notice that a vector definition has three components:
+
+1.  There's a `c` at the front.
+2.  Parentheses surround everything.
+3.  Values are separated by commas.
+
+As with saving any variable, it'll look at first like nothing has happened, but we can type the variable name again to see what values are saved in it:
+
+```{webr}
+#| caption: Retrieving a vector
+#| exercise: vectors2a
+dog_weight
+```
+
+### Now you try
+
+The following definition of a vector with four values has some problems with it. Can you fix them? When you click "Run Code" the error message should be able to give a little bit of guidance, but hints are available, too.
+
+```{webr}
+#| caption: Correcting code
+#| exercise: vectors3
+kitten_weight <- 2, 4 5, 3,
+```
+
+:::: {.hint exercise="vectors3"}
+::: {.callout-note collapse="false"}
+#### Hint 1
+
+Watch out for commas. Elements in a vector need to be separated with commas, and there shouldn't be a comma at the end.
+
+```{r}
+#| eval: false
+kitten_weight <- 2, 4, 5, 3
+```
+:::
+::::
+
+:::: {.hint exercise="vectors3"}
+::: {.callout-note collapse="false"}
+#### Hint 2
+
+Values of a vector are always surrounded by parentheses. Make sure to close anything you open!
+
+```{r}
+#| eval: false
+kitten_weight <- (2, 4, 5, 3)
+```
+:::
+::::
+
+:::: {.solution exercise="vectors3"}
+::: {.callout-tip collapse="false"}
+#### Solution
+
+A well formed vector has three characteristics:
+
+1.  There's a `c` at the front.
+2.  Parentheses surround everything.
+3.  Values are separated by commas.
+
+```{webr}
+#| exercise: vectors3
+#| solution: true
+kitten_weight <- c(2, 4, 5, 3)
+```
+:::
+::::
+
+```{webr}
+#| exercise: vectors3
+#| check: true
+#| class: wait
+gradethis::grade_this_code()
+```
+
+### Vector math
+
+Vectors are especially fancy because they allow us to do math on the entire list of values at once. Let's say, for instance, that we realized our scale was exactly one pound off, recording each dog's weight to be one pound lighter than it actually is. Hit run below to remind yourself of the weights we've recorded. How would you **add one pound** to the dog weights?
+
+```{webr}
+#| caption: Addition with vectors
+#| exercise: vectors4
+dog_weight
+```
+
+:::: {.hint exercise="vectors4"}
+::: {.callout-note collapse="false"}
+#### Hint 1
+
+Arithmetic with vectors works just like it does with single values.
+
+```{r}
+#| eval: false
+dog_weight + ______
+```
+:::
+::::
+
+:::: {.solution exercise="vectors4"}
+::: {.callout-tip collapse="false"}
+#### Solution
+
+Adding `1` to a vector will return each of the values, plus one.
+
+```{webr}
+#| exercise: vectors4
+#| solution: true
+dog_weight + 1
+```
+:::
+::::
+
+```{webr}
+#| exercise: vectors4
+#| check: true
+#| class: wait
+gradethis::grade_this_code()
+```
+
+### Doing more with vectors
+
+The nature of vectors also makes it easy to do more complex things with them. We know, for instance, that every pound is about 0.45 kilograms, so we can convert the weights with simple multiplication:
+
+```{webr}
+#| caption: Multiplication with vectors
+#| exercise: vectors5
+dog_weight * 0.45
+```
+
+Vectors will really shine when we learn about functions in a future lesson.
+
+-   [ ] Continue to the next section
+
+## R can handle words
+
+We should also be aware that R can do fancy things with words. When we work with words, we'll call them "strings," which is another name for most values that aren't numbers.
+
+### Defining strings
+
+Here's the secret: *quotation marks*. Notice in the following example code that the line of text is surrounded by quotation marks.
+
+```{webr}
+#| caption: Working with strings
+#| exercise: strings1
+dalloway <- "Mrs. Dalloway said she would buy the flowers herself."
+
+dalloway
+```
+
+The technique works *almost* anywhere someone might otherwise use numbers, including in vectors:
+
+```{webr}
+#| caption: Working with strings
+#| exercise: strings2
+justine <- c("The", "sea", "is", "high", "again", "today")
+
+justine
+```
+
+### Now you try
+
+The following assignment of a string to a variable name isn't working. Can you fix it?
+
+```{webr}
+#| caption: Correcting code
+#| exercise: strings3
+beyonce <- Only double lines we cross is dollar signs.
+
+beyonce
+```
+
+:::: {.hint exercise="strings3"}
+::: {.callout-note collapse="false"}
+#### Hint 1
+
+Don't forget the quotation marks!
+:::
+::::
+
+:::: {.solution exercise="strings3"}
+::: {.callout-tip collapse="false"}
+#### Solution
+
+Always put quotation marks around strings. (Anything that contains letters is *probably* a string.)
+
+```{webr}
+#| exercise: strings3
+#| solution: true
+beyonce <- "Only double lines we cross is dollar signs."
+
+beyonce
+```
+:::
+::::
+
+```{webr}
+#| exercise: strings3
+#| check: true
+#| class: wait
+gradethis::grade_this_code()
+```
+
+## The End
+
+That's all for this lesson, which introduces some basic instructions for using R. The following should serve a reminder of what we learned in this tutorial:
+
+-   R can calculate with typical arithmetic operators, including `+`, `-`, `*`, and `/`. Example: `2 + 2`
+-   R can save a value to a variable name by using the assignment arrow `<-`. Example: `states <- 50`
+-   R can save multiple values in a list by using `c()` and separating items with commas. Example: `c(1, 2, 3)`
+-   R can manage words and letters as values if they're surrounded by quotation marks. Example: `dessert <- "chocolate pie"`
+
+::: showtoc
+-   [ ] Show table of contents
+:::
